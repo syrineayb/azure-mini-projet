@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter un Client</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fb; /* Light background */
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 60%;
+            margin: 30px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #b024ea; /* Blue for header */
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        select:focus {
+            border-color: #bbb2ff; /* Highlight input on focus */
+        }
+
+        button[type="submit"] {
+            background-color: #bbb2ff; /* Blue background */
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #b334e5; /* Darker blue on hover */
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-link a {
+            color: #b024ea;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Ajouter un Nouveau Client</h1>
+
+    <!-- Form to add a new client -->
+    <form th:action="@{/clients}" th:object="${client}" method="post">
+        <div>
+            <label for="nom">Nom:</label>
+            <input type="text" id="nom" th:field="*{nom}" placeholder="Enter name" required/>
+        </div>
+        <div>
+            <label for="prenom">Prénom:</label>
+            <input type="text" id="prenom" th:field="*{prenom}" placeholder="Enter surname" required/>
+        </div>
+        <div>
+            <label for="age">Âge:</label>
+            <input type="number" id="age" th:field="*{age}" placeholder="Enter age" required/>
+        </div>
+        <div>
+            <label for="region">Région:</label>
+            <select id="region" th:field="*{region.id}" required>
+                <option value="" disabled selected>Choisir une région</option>
+                <option th:each="region : ${regions}" th:value="${region.id}" th:text="${region.libelle}"></option>
+            </select>
+        </div>
+
+        <div>
+            <button type="submit">Ajouter</button>
+        </div>
+    </form>
+
+    <!-- Link to return to the clients list -->
+    <div class="back-link">
+        <a th:href="@{/clients}">Retour à la liste des clients</a>
+    </div>
+</div>
+
+</body>
+</html>

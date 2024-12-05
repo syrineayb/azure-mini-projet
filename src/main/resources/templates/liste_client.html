@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Liste des Clients</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #b024ea; /* Blue for header */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        button {
+            padding: 5px 10px;
+            background-color: #bbb2ff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #b334e5;
+        }
+
+        a {
+            text-decoration: none;
+            color: #b024ea;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .search-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .search-container input[type="text"] {
+            padding: 8px;
+            width: 250px;
+        }
+
+        .search-container button {
+            padding: 8px 15px;
+            background-color: #ac87ea;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .search-container button:hover {
+            background-color: #b024ea;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Liste des Clients</h1>
+
+<!-- Search Form -->
+<div class="search-container">
+    <form action="#" th:action="@{/clients}" method="get">
+        <input type="text" name="searchQuery" placeholder="Rechercher par nom, prénom..." th:value="${searchQuery}"/>
+        <button type="submit">Rechercher</button>
+    </form>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Âge</th>
+        <th>Région</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="client : ${clients}">
+        <td th:text="${client.nom}"></td>
+        <td th:text="${client.prenom}"></td>
+        <td th:text="${client.age}"></td>
+        <td th:text="${client.region.libelle}"></td>
+        <td>
+            <!-- Link to update form -->
+            <a th:href="@{/clients/update/{id}(id=${client.id})}">Modifier</a>
+            <!-- Form for deleting the client -->
+            <form th:action="@{/clients/delete/{id}(id=${client.id})}" method="post" style="display:inline;">
+                <button type="submit">Supprimer</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Link to add a new client -->
+<div style="text-align: center; margin-top: 20px;">
+    <a th:href="@{/clients/create}">Ajouter un nouveau client</a>
+</div>
+
+</body>
+</html>
